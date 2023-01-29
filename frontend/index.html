@@ -1,0 +1,75 @@
+<html>
+<script src=https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js></script>
+<link rel="stylesheet" type="text/css" href="/frontend/style.css">
+
+<div id="signDiv">
+    <title> Welcome to Shootme </title>
+    <div id="loginTitle">Welcome to Shootme</div>
+    UserName:
+    <input id="signDiv-user" type="text">
+    <br>
+    <br> Password:
+    <input id="signDiv-pass" type="text">
+    <br>
+    <br>
+    <button class="button" id="signDiv-signIn">Sign In</button>
+    <button class="button" id="signDiv-signUp">Sign Up</button>
+</div>
+
+
+<div id="gameDiv" style="display: none;">
+    <div width="1500" height="500">
+        <canvas id="myCanvas" width="1100" height="500" style="border:1px solid black; float:left; background-color: #4caf55;"></canvas>
+
+        <div id="chat">
+            <div id="chat-text">
+                <div> Chat</div>
+            </div>
+    
+            <form id="chat-form">
+                <input id="chat-input" type="text" style="width:300px">
+            </form>
+        </div>
+    </div>
+
+        
+
+
+    <div id="character-select">
+        <button class="char-select-button" onclick="UpdateCharModel('Naruto Uzumaki')">
+            <img id="Naruto Uzumaki" src="/frontend/sprites/Naruto Uzumaki-select.png" alt="char" style="width:60px; height:60px;">
+            <br>Naruto Uzumaki
+        </button>
+
+        <button class="char-select-button" onclick="UpdateCharModel('Itachi Uchiha')">
+            <img id="Itachi Uchiha" src="/frontend/sprites/Itachi Uchiha-select.png" alt="char" style="width:60px; height:60px;">
+            <br>Itachi Uchiha
+        </button>
+
+        <button class="char-select-button" onclick="UpdateCharModel('Sasuke')">
+            <img id="Sasuke" src="/frontend/sprites/Sasuke-select.png" alt="char" style="width:60px; height:60px;">
+            <br>Sasuke
+        </button>
+        <br>
+
+        <div id="extrabuttons">
+            <button id="kms-button">Hide</button>
+            <button id="revive-button">Unhide</button>
+            <div id="timeStamp">Time:</div>
+        </div>
+    </div>
+
+    <div id="player-list-box" style="width: 200px; height : 200px; float:left; overflow-y:scroll">
+        <div style="font-weight : bold;"> Player List</div>
+        <br>
+        <div id="player-list"></div>
+    </div>
+
+    </div>
+
+
+<head>
+    <script type="text/javascript" src="/frontend/scripts/script.js"></script>
+</head>
+
+</html>
