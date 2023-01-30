@@ -4,8 +4,7 @@ var game = require('./game');
 var Bullet = game.Bullet;
 var Player = game.Player;
 
-let newTimeout = 10000
-jest.setTimeout(newTimeout)
+
 
 describe('Player', () => {
     let player;
