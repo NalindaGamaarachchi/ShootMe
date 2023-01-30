@@ -19,7 +19,7 @@ app.get('/', function (req, res) {
 app.use('/frontend', express.static(__dirname + '/frontend'));
 
 server.listen(process.env.PORT || config.servePort);
-console.log('Server Started! localhost: ' + config.servePort);
+// console.log('Server Started! localhost: ' + config.servePort);
 
 
 
@@ -30,7 +30,7 @@ mongoClient.connect(config.mongoURL,{ useNewUrlParser: true, useUnifiedTopology:
 
     dbo.collection(config.mongoRepo, function (err, res) {
         if (err) throw err;
-        console.log("Collection created!");
+        // console.log("Collection created!");
     });
 
 });
@@ -114,7 +114,7 @@ function isCorrectCredential(userData) {
             }
             else {
                 callback({ valid: false, points: null });
-                console.log("incorrect user or password");
+                // console.log("incorrect user or password");
             }
         });
     });
@@ -142,7 +142,7 @@ function onConnect(socket, name, points) {
     var player = Player(socket.id, name, points);
     constant.playerList[socket.id] = player;
 
-    socket.on('keyPress', function (data) {            //glitchy character movement
+    socket.on('keyPress', function (data) {          
         if (data.inputId === 'right')
             player.rightPress = data.state;
         else if (data.inputId === 'left')
@@ -179,3 +179,12 @@ function onConnect(socket, name, points) {
         player.char = data.charName;
     });
 }
+
+
+module.exports = {
+    isValidNewCredential: isValidNewCredential,
+    isCorrectCredential:isCorrectCredential,
+    insertCredential:insertCredential,
+    toAllChat:toAllChat,
+    onConnect:onConnect
+  };
