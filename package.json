@@ -2,10 +2,11 @@
   "name": "shootme",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "jest"
+    "test": "jest",
+    "build": "node rollup.config.js"
   },
   "author": "Nalinda Gamaarachchi",
   "license": "ISC",
@@ -15,10 +16,12 @@
     "nodemon": "^2.0.20",
     "parsejson": "0.0.3",
     "promise": "^8.0.1",
-    "socket.io": "^2.4.0"
+    "socket.io": "^2.5.0",
+    "supertest": "^6.3.3"
   },
   "devDependencies": {
-    "jest": "^29.4.1",
-    "puppeteer": "^19.6.2"
+    "jest": "^24.0",
+    "puppeteer": "^19.6.2",
+    "rollup": "^3.12.0"
   }
 }

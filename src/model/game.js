@@ -1,5 +1,5 @@
-let config = require('./config');
-var constant = require('./constant')
+let config = require('../data/config');
+var constant = require('../data/constant')
 
 var Bullet = function (playerId,posX,posY,direction) {
     var bullet = {

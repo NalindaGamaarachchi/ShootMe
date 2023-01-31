@@ -1,16 +1,20 @@
+'use strict';
+
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
-var io = require('socket.io')(server, {});
+const ws = require('ws');
+var io = require('socket.io')(server, { wsEngine: ws.Server });
 var mongoClient = require('mongodb').MongoClient;
-let config = require('./src/data/config');
-var constant = require('./src/data/constant')
-var promise = require('promise');
-var dbo
+let config = require('./config');
+var constant = require('./constant');
+require('promise');
+var dbo;
 
 
-var game = require('./src/model/game');
-var Bullet = game.Bullet;
+
+var game = require('./game');
+game.Bullet;
 var Player = game.Player;
 
 app.get('/', function (req, res) {
@@ -20,7 +24,7 @@ app.get('/', function (req, res) {
 app.use('/frontend', express.static(__dirname + '/frontend'));
 
 server.listen(process.env.PORT || config.servePort);
-console.log('Server Started! localhost: ' + config.servePort);
+// console.log('Server Started! localhost: ' + config.servePort);
 
 
 
@@ -28,11 +32,10 @@ console.log('Server Started! localhost: ' + config.servePort);
 mongoClient.connect(config.mongoURL,{ useNewUrlParser: true, useUnifiedTopology: true }, function (err, db) {
     if (err) throw err;
     dbo = db.db("shootme");
-    
 
     dbo.collection(config.mongoRepo, function (err, res) {
         if (err) throw err;
-        console.log("Collection created!");
+        // console.log("Collection created!");
     });
 
 });
@@ -48,7 +51,7 @@ io.sockets.on('connection', function (socket) {
             if (res)
                 insertCredential(userData);
             socket.emit('signUpResponse', { success: res });
-        })
+        });
     });
 
     socket.on('signIn', function (userData) {
@@ -56,7 +59,7 @@ io.sockets.on('connection', function (socket) {
             if (res.valid)
                 onConnect(socket, userData.username, res.points);
             socket.emit('signInResponse', { success: res.valid });
-        })
+        });
     });
 
     socket.on('disconnect', function () {
@@ -100,7 +103,6 @@ function isValidNewCredential(userData) {
             }
         });
     });
-    
 }
 
 function isCorrectCredential(userData) {

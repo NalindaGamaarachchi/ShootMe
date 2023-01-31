@@ -1,5 +1,5 @@
-const config = require('./config');
-const constant = require('./constant');
+const config = require('../data/config');
+const constant = require('../data/constant');
 var game = require('./game');
 var Bullet = game.Bullet;
 var Player = game.Player;
