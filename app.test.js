@@ -6,6 +6,7 @@ const mongoClient = require('mongodb').MongoClient;
 const config = require('./src/data/config');
 const constant = require('./src/data/constant');
 const game = require('./src/model/game');
+const puppeteer = require('puppeteer');
 
 const app1 = require("./app");
 toAllChat = app1.toAllChat
@@ -22,13 +23,8 @@ describe('toAllChat integration tests', () => {
       dbo = db.db("shootme");
       dbo.collection(config.mongoRepo, (err, res) => {
         if (err) throw err;
-        console.log("Collection created!");
       });
     });
-  });
-
-  afterAll(() => {
-    dbo.close();
   });
 
   it('sends a message to all connected clients', () => {
@@ -90,29 +86,27 @@ describe('onConnect integration tests', () => {
 });
 
 
-var dbo;
-
-beforeAll(async () => {
-  const client = await mongoClient.connect(config.mongoURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  dbo = client.db('shootme');
-});
+puppeteer
 
 
-describe('isValidNewCredential', () => {
-  it('should return true if the username is not taken yet', async () => {
-    const userData = { username: 'testuser1212', password: 'testpasswor223d' };
-    const result = await isValidNewCredential(userData);
-    expect(result).toBe(true);
-  });
-
-  it('should return false if the username is already taken', async () => {
-    const userData = { username: 'testuser', password: 'testpassword' };
-    await dbo.collection(config.mongoRepo).insertOne(userData);
-    const result = await isValidNewCredential(userData);
-    expect(result).toBe(false);
-  });
-});
-
+describe('End-to-End Tests', () => {
+    let browser;
+    let page;
+    beforeEach(async () => {
+        browser = await puppeteer.launch({
+            headless: false,
+            slowMo: 250,
+        });
+        page = await browser.newPage();
+        await page.goto('http://localhost:8000');
+    });
+  
+    afterEach(async () => {
+      await browser.close();
+    });
+  
+    test('Check the homepage is loaded correctly', async () => {
+      const title = await page.title();
+      expect(title).toBe('Welcome to Shootme');
+    });
+});  

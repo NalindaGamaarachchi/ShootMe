@@ -20,7 +20,7 @@ app.get('/', function (req, res) {
 app.use('/frontend', express.static(__dirname + '/frontend'));
 
 server.listen(process.env.PORT || config.servePort);
-console.log('Server Started! localhost: ' + config.servePort);
+// console.log('Server Started! localhost: ' + config.servePort);
 
 
 
@@ -32,7 +32,7 @@ mongoClient.connect(config.mongoURL,{ useNewUrlParser: true, useUnifiedTopology:
 
     dbo.collection(config.mongoRepo, function (err, res) {
         if (err) throw err;
-        console.log("Collection created!");
+        // console.log("Collection created!");
     });
 
 });
@@ -41,7 +41,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.id = Math.random();
     constant.socketList[socket.id] = socket;
-    console.log("Socket " + socket.id + " has connected");
+    // console.log("Socket " + socket.id + " has connected");
 
     socket.on('signUp', function (userData) {
         isValidNewCredential(userData).then(function (res) {
@@ -62,7 +62,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('disconnect', function () {
         if (constant.socketList[socket.id] != null) {
             delete constant.socketList[socket.id];
-            console.log(socket.id + " has disconnected");
+            // console.log(socket.id + " has disconnected");
         }
         var player = constant.playerList[socket.id];
         if (player != null) {
@@ -74,7 +74,7 @@ io.sockets.on('connection', function (socket) {
             var newValues = { $set: { points: player.points } };
             dbo.collection(config.mongoRepo).updateOne(query, newValues, function (err, res) {
                 if (err) throw err;
-                console.log("MongoDB Document Updated: " + res.result);
+                // console.log("MongoDB Document Updated: " + res.result);
             });
 
             delete constant.playerList[socket.id];
@@ -91,12 +91,12 @@ function isValidNewCredential(userData) {
         dbo.collection(config.mongoRepo).find(query).toArray(function (err, result) {
             if (err) throw err;
             if (result.length == 0) {
-                console.log("user credential not taken yet: " + JSON.stringify(userData));
+                // console.log("user credential not taken yet: " + JSON.stringify(userData));
                 callback(true);
             }
             else {
                 callback(false);
-                console.log("User credential already exist: " + JSON.stringify(result));
+                // console.log("User credential already exist: " + JSON.stringify(result));
             }
         });
     });
@@ -112,7 +112,7 @@ function isCorrectCredential(userData) {
         dbo.collection(config.mongoRepo).find(query).toArray(function (err, result) {
             if (err) throw err;
             if (result.length != 0) {
-                console.log("Matching Credential: " + JSON.stringify(result[0]));
+                // console.log("Matching Credential: " + JSON.stringify(result[0]));
                 callback({ valid: true, points: result[0].points });
             }
             else {
@@ -131,7 +131,7 @@ function insertCredential(data) {
     };
     dbo.collection(config.mongoRepo).insertOne(account, function (err, res) {
         if (err) throw err;
-        console.log("MongoDB Document Inserted: " + JSON.stringify(account));
+        // console.log("MongoDB Document Inserted: " + JSON.stringify(account));
     });
 }
 
