@@ -10,6 +10,8 @@ const game = require('./src/model/game');
 const app1 = require("./app");
 toAllChat = app1.toAllChat
 onConnect = app1.onConnect
+isValidNewCredential = app1.isValidNewCredential
+
 
 describe('toAllChat integration tests', () => {
   let dbo;
@@ -86,3 +88,31 @@ describe('onConnect integration tests', () => {
   });
 
 });
+
+
+var dbo;
+
+beforeAll(async () => {
+  const client = await mongoClient.connect(config.mongoURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  dbo = client.db('shootme');
+});
+
+
+describe('isValidNewCredential', () => {
+  it('should return true if the username is not taken yet', async () => {
+    const userData = { username: 'testuser1212', password: 'testpasswor223d' };
+    const result = await isValidNewCredential(userData);
+    expect(result).toBe(true);
+  });
+
+  it('should return false if the username is already taken', async () => {
+    const userData = { username: 'testuser', password: 'testpassword' };
+    await dbo.collection(config.mongoRepo).insertOne(userData);
+    const result = await isValidNewCredential(userData);
+    expect(result).toBe(false);
+  });
+});
+
