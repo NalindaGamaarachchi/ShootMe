@@ -104,6 +104,9 @@ describe('End-to-End Tests', () => {
         await page.goto('http://localhost:8000');
     });
   
+    afterEach(async () => {
+      await browser.close();
+    });
   
     test('Check the homepage is loaded correctly', async () => {
       const title = await page.title();
