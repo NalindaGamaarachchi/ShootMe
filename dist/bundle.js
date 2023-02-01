@@ -168,13 +168,13 @@ function onConnect(socket, name, points) {
         toAllChat(playerName + ': ' + data);
     });
 
-    socket.on('kms', function () {
+    socket.on('hide', function () {
         if (constant.playerList[socket.id] != null) {
             delete constant.playerList[socket.id];
         }
     });
 
-    socket.on('revive', function () {
+    socket.on('unhide', function () {
         if (constant.playerList[socket.id] == null) {
             constant.playerList[socket.id] = player;
         }

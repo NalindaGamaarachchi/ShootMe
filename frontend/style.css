@@ -1,3 +1,10 @@
+#background {
+    background: url(./assets/backound.jpg);
+    height: 100%;
+    width: 100%;
+  background-position: center;
+}
+
 
 #loginTitle {
     margin: 0;
@@ -7,17 +14,18 @@
     font-family: aaargh, sans-serif;
     font-size: 1.5rem;
     text-align: center;
-    color: green;
+    font-weight: bold;
+    color: rgb(238, 154, 0);
 }
 
-#signDiv {
+#signInBox {
     text-align: center;
     margin-top: 50px;
     width: 268px;
     padding: 30px;
-    border: none;
-    box-shadow: 0 0 30px 3px rgba(0, 0, 255, 0.3);
-    background-color: rgba(0, 0, 255, 0.3);
+    border-radius: 16px;
+    box-shadow: silver;
+    background-color: silver;
 
     position: fixed;
     top: 50%;
@@ -27,7 +35,7 @@
 }
 
 .button {
-    background-color: #4CAF50; /* Green */
+    background-color: rgb(238, 154, 0);
     border: none;
     color: white;
     padding: 15px 32px;

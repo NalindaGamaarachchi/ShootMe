@@ -1,36 +1,36 @@
 var socket = io();
 
-var signDiv = document.getElementById('signDiv');
-var signDivUser = document.getElementById('signDiv-user');
-var signDivPass = document.getElementById('signDiv-pass');
-var signDivSignIn = document.getElementById('signDiv-signIn');
-var signDivSignUp = document.getElementById('signDiv-signUp');
-var kmsButton = document.getElementById('kms-button');
-var reviveButton = document.getElementById('revive-button');
+var signInBox = document.getElementById('signInBox');
+var signInBoxUser = document.getElementById('signInBox-user');
+var signInBoxPass = document.getElementById('signInBox-pass');
+var signInBoxSignIn = document.getElementById('signInBox-signIn');
+var signInBoxSignUp = document.getElementById('signInBox-signUp');
+var hideButton = document.getElementById('hide-button');
+var unhideButton = document.getElementById('unhide-button');
 var timeStamp = document.getElementById('timeStamp');
 var playerListDisplay = document.getElementById('player-list');
 
 var charImg = new Image();
-charImg.src = '/frontend/sprites/Naruto Uzumaki.png';
+charImg.src = '/frontend/assets/Naruto Uzumaki.png';
 var imgFrameIndex = 50;
 var imgWidth = 50;
 var imgHeight = 60;
 
 
-signDivSignIn.onclick = function () {
-    socket.emit('signIn', { username: signDivUser.value.trim(), password: signDivPass.value.trim() });
+signInBoxSignIn.onclick = function () {
+    socket.emit('signIn', { username: signInBoxUser.value.trim(), password: signInBoxPass.value.trim() });
 };
 
-signDivSignUp.onclick = function () {
-    socket.emit('signUp', { username: signDivUser.value.trim(), password: signDivPass.value.trim() });
+signInBoxSignUp.onclick = function () {
+    socket.emit('signUp', { username: signInBoxUser.value.trim(), password: signInBoxPass.value.trim() });
 };
 
-kmsButton.onclick = function () {
-    socket.emit('kms');
+hideButton.onclick = function () {
+    socket.emit('hide');
 };
 
-reviveButton.onclick = function () {
-    socket.emit('revive');
+unhideButton.onclick = function () {
+    socket.emit('unhide');
 };
 
 socket.on('signUpResponse', function (data) {
@@ -43,7 +43,8 @@ socket.on('signUpResponse', function (data) {
 
 socket.on('signInResponse', function (data) {
     if (data.success) {
-        signDiv.style.display = 'none';
+        signInBox.style.display = 'none';
+        background.style.display = 'none';
         gameDiv.style.display = 'inline-block';
     }
     else
@@ -82,7 +83,7 @@ chatForm.onsubmit = function (event) {
 
 
 socket.on('renderInfo', function (playerData,bulletData) {
-    canvas.clearRect(0, 0, 800, 500);
+    canvas.clearRect(0, 0, 1100, 500);
 
     playerListDisplay.innerHTML = '';
 
@@ -115,7 +116,7 @@ document.onkeydown = function (event) {
             socket.emit('keyPress', { inputId: 'left', state: true });
         else if (event.keyCode === 87) //w
             socket.emit('keyPress', { inputId: 'up', state: true });
-        else if (event.keyCode === 88) //space
+        else if (event.keyCode === 88) //x
             socket.emit('keyPress', { inputId: 'shoot', state: true });
     }
 };
@@ -130,7 +131,7 @@ document.onkeyup = function (event) {
             socket.emit('keyPress', { inputId: 'left', state: false });
         else if (event.keyCode === 87) //w
             socket.emit('keyPress', { inputId: 'up', state: false });
-        else if (event.keyCode === 32) //space
+        else if (event.keyCode === 88) //x
             socket.emit('keyPress', { inputId: 'shoot', state: false });
     }
 };
@@ -138,7 +139,7 @@ document.onkeyup = function (event) {
 function drawChar(player) {
 
     var playersImg = new Image();
-    playersImg.src = '/frontend/sprites/' + player.char + '.png';
+    playersImg.src = '/frontend/assets/' + player.char + '.png';
 
     switch (player.lastPosition) {
         case 'down':
@@ -158,13 +159,13 @@ function drawChar(player) {
 
 function drawBullet(bullet){
     var bulletImg = new Image();
-    bulletImg.src = '/frontend/sprites/bullet.png';
+    bulletImg.src = '/frontend/assets/bullet.png';
 
     canvas.drawImage(bulletImg, 0, 0, imgWidth, imgHeight, bullet.x, bullet.y, imgWidth, imgHeight);
 }
 
 function UpdateCharModel(name) {
-    charImg.src = '/frontend/sprites/' + name + '.png';
+    charImg.src = '/frontend/assets/' + name + '.png';
     socket.emit('charUpdate', { charName: name });
 }
 
